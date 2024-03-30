@@ -1,7 +1,7 @@
 
 const getHomepage = (req, res) => {
     //Process DATA => call Model
-    res.render('sample.ejs')
+    return res.render('home.ejs')
 }
 
 const getABC = (req, res) => {
