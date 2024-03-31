@@ -21,7 +21,7 @@ app.use(express.json())
 
 //===>Giang vien<=== BEGIN//
 
-app.get('/lecturers/get-list', async (req, res) => {
+app.get('/api/lecturers/get-list', async (req, res) => {
     try {
         // Parse query parameters
         const { keyword, pageNumber = 1, perPage = 10 } = req.query;
@@ -66,7 +66,7 @@ app.get('/lecturers/get-list', async (req, res) => {
 });
 
 // Tạo mới giảng viên
-app.post('/lecturers/add-lecturers', async (req, res) => {
+app.post('/api/lecturers/add-lecturers', async (req, res) => {
     try {
         const {
             Status,
@@ -101,7 +101,7 @@ app.post('/lecturers/add-lecturers', async (req, res) => {
 
 
 //Sua thong tin Giang Vien
-app.post('/lecturers/update-lecturer', async (req, res) => {
+app.post('/api/lecturers/update-lecturer', async (req, res) => {
     try {
         const {
             Id,
@@ -139,7 +139,7 @@ app.post('/lecturers/update-lecturer', async (req, res) => {
     }
 });
 
-app.post('/lecturers/delete-lecturer', async (req, res) => {
+app.post('/api/lecturers/delete-lecturer', async (req, res) => {
     try {
         const {
             Id
