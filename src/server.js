@@ -193,6 +193,11 @@ app.post('/api/lecturers/delete-lecturer', async (req, res) => {
 
 //===>Giang vien<=== END//
 
+
+//SinhVien An
+
+//
+
 app.listen(port, hostname, () => {
     console.log(`Example app listening on port ${port}`)
 })
