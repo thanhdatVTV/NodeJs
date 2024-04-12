@@ -4,6 +4,7 @@ const configViewEngine = require('./config/viewEngine');
 const webRoutes = require('./routes/web');
 const { db } = require('./firebase.js');
 const LecturerServices = require('./services/LecturerService');
+const SubjectServices = require('./services/SubjectService');
 
 //console.log(process.env);
 
@@ -56,142 +57,13 @@ app.post('/api/lecturers/delete-lecturer', LecturerServices.deleteLecturer);
 
 //===>Mon hoc<=== START//
 
-//Lay danh sach mon hoc
-app.get('/api/subjects/get-list', async (req, res) => {
-  try {
-    // Parse query parameters
-    const { keyword, pageNumber = 1, perPage = 10 } = req.query;
+app.get('/api/subjects/get-list', SubjectServices.getList);
 
-    // Ensure pageNumber and perPage are parsed as integers
-    const parsedPageNumber = parseInt(pageNumber);
-    const parsedPerPage = parseInt(perPage);
+app.post('/api/subjects/add-subjects', SubjectServices.addSubject);
 
-    let subjectsRef = db.collection('tbl_MonHoc');
+app.post('/api/subjects/update-subject', SubjectServices.updateSubject);
 
-    // Apply keyword filter if provided
-    if (keyword) {
-      subjectsRef = subjectsRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
-    }
-
-    // Add filter condition to exclude documents where isDelete is true
-    subjectsRef = subjectsRef.where('IsDelete', '!=', true);
-
-    // Calculate the starting index based on parsedPageNumber and parsedPerPage
-    const startIndex = (parsedPageNumber - 1) * parsedPerPage;
-
-    // Fetch a page of documents
-    const snapshot = await subjectsRef.limit(parsedPerPage).offset(startIndex).get();
-
-    if (snapshot.empty) {
-      return res.status(404).send('No documents found');
-    }
-
-    const lecturers = [];
-    snapshot.forEach((doc) => {
-      lecturers.push({
-        id: doc.id,
-        data: doc.data(),
-      });
-    });
-
-    res.status(200).send(lecturers);
-  } catch (error) {
-    console.error('Error getting documents: ', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-//Tao moi mon hoc
-app.post('/api/subjects/add-subjects', async (req, res) => {
-  try {
-    const {
-      MaMonHoc,
-      TenMonHoc,
-      Status,
-      IsDelete,
-      UserCreated,
-      DateCreated,
-      UserUpdated,
-      DateUpdated,
-    } = req.body;
-
-    const subjectData = {
-      MaMonHoc,
-      TenMonHoc,
-      Status,
-      IsDelete,
-      UserCreated,
-      DateCreated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
-      UserUpdated,
-      DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
-    };
-
-    const docRef = await db.collection('tbl_MonHoc').add(subjectData);
-
-    res.status(201).send(`Subject added with ID: ${docRef.id}`);
-  } catch (error) {
-    console.error('Error adding subject: ', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
-
-//Sua thong tin mon hoc
-app.post('/api/subjects/update-subject', async (req, res) => {
-  try {
-    const { Id, MaMonHoc, TenMonHoc, UserUpdated, DateUpdated } = req.body;
-
-    // Validate required parameters
-    // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
-    //     return res.status(400).send("Missing required parameters");
-    // }
-
-    const subjectRef = db.collection('tbl_MonHoc').doc(Id);
-
-    // Check if the document exists
-    const doc = await subjectRef.get();
-    if (!doc.exists) {
-      return res.status(404).send('Document not found');
-    }
-
-    // Update the document with the provided data
-    await subjectRef.update({
-      MaMonHoc,
-      TenMonHoc,
-      UserUpdated,
-      DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
-    });
-
-    res.status(200).send('Subject information updated successfully');
-  } catch (error) {
-    console.error('Error updating subject information: ', error);
-    res.status(500).send('Internal Server Errorrrrr');
-  }
-});
-
-//Xoa mon hoc
-app.post('/api/subjects/delete-subject', async (req, res) => {
-  try {
-    const { Id } = req.body;
-
-    const subjectRef = db.collection('tbl_MonHoc').doc(Id);
-
-    // Check if the document exists
-    const doc = await subjectRef.get();
-    if (!doc.exists) {
-      return res.status(404).send('Document not found');
-    }
-
-    // Update the document with the provided data
-    await subjectRef.update({
-      IsDelete: true,
-    });
-
-    res.status(200).send('Subject information delete successfully');
-  } catch (error) {
-    console.error('Error delete subject information: ', error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+app.post('/api/subjects/delete-subject', SubjectServices.deleteSubject);
 
 //===>Mon hoc<=== END//
 
