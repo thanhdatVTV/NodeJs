@@ -67,8 +67,18 @@ async function getList(req, res) {
 
 async function addLecturer(req, res) {
     try {
-        const { Status, UserUpdated, TenGV, DateUpdated, MaGV, UserCreated, IsDelete, DateCreated } =
+        const {MaGV, TenGV} =
             req.body;
+
+        // Check if MaGV or TenGV is undefined
+        if (!MaGV || !TenGV) {
+            return res.status(400).send({
+                status: 0,
+                message: 'MaGV or TenGV is missing',
+                response: null,
+                totalRecord: 0
+            });
+        }
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_GiangVien').where('MaGV', '==', MaGV).get();
@@ -83,14 +93,16 @@ async function addLecturer(req, res) {
         }
 
         const lecturerData = {
-            Status,
-            UserUpdated,
+            Status: 1,
+            UserUpdated: "",
             TenGV,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateUpdated: new Date(),
             MaGV,
-            UserCreated,
-            IsDelete,
-            DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            UserCreated: "",
+            IsDelete: false,
+            // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateCreated: new Date()
         };
 
         const docRef = await db.collection('tbl_GiangVien').add(lecturerData);
@@ -117,7 +129,7 @@ async function addLecturer(req, res) {
 
 async function updateLecturer(req, res) {
     try {
-        const { Id, UserUpdated, TenGV, DateUpdated, MaGV } = req.body;
+        const { Id, TenGV, MaGV } = req.body;
 
         // Validate required parameters if needed
         // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -140,9 +152,10 @@ async function updateLecturer(req, res) {
 
         // Update the document with the provided data
         await lecturerRef.update({
-            UserUpdated,
+            UserUpdated: '',
             TenGV,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+            DateUpdated: new Date(),
             MaGV,
         });
 
