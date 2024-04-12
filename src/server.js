@@ -5,6 +5,8 @@ const webRoutes = require('./routes/web');
 const { db } = require('./firebase.js');
 const LecturerServices = require('./services/LecturerService');
 const SubjectServices = require('./services/SubjectService');
+const SemesterServices = require('./services/SemesterService');
+const YearServices = require('./services/YearService');
 
 //console.log(process.env);
 
@@ -66,6 +68,30 @@ app.post('/api/subjects/update-subject', SubjectServices.updateSubject);
 app.post('/api/subjects/delete-subject', SubjectServices.deleteSubject);
 
 //===>Mon hoc<=== END//
+
+//===>Hoc Ky<=== START//
+
+app.get('/api/Semester/get-list', SemesterServices.getList);
+
+app.post('/api/Semester/add-Semester', SemesterServices.addSemester);
+
+app.post('/api/Semester/update-Semester', SemesterServices.updateSemester);
+
+app.post('/api/Semester/delete-Semester', SemesterServices.deleteSemester);
+
+//===>Hoc Ky<=== END//
+
+//===>Nam<=== START//
+
+app.get('/api/Year/get-list', YearServices.getList);
+
+app.post('/api/Year/add-Year', YearServices.addYear);
+
+app.post('/api/Year/update-Year', YearServices.updateYear);
+
+app.post('/api/Year/delete-Year', YearServices.deleteYear);
+
+//===>Nam<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
