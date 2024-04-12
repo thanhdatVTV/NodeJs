@@ -7,6 +7,7 @@ async function getList(req, res) {
         // Parse query parameters
         const { keyword, pageNumber = 1, perPage = 10 } = req.query;
 
+
         // Ensure pageNumber and perPage are parsed as integers
         const parsedPageNumber = parseInt(pageNumber);
         const parsedPerPage = parseInt(perPage);
