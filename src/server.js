@@ -8,6 +8,11 @@ const SubjectServices = require('./services/SubjectService');
 const SemesterServices = require('./services/SemesterService');
 const YearServices = require('./services/YearService');
 const MajorServices = require('./services/MajorService');
+const CoSoService = require('./services/CoSoService');
+const ToaNhaService = require('./services/ToaNhaService');
+const PhongService = require('./services/PhongService');
+const NhomLopService = require('./services/NhomLopService');
+const LichThiService = require('./services/LichThiService');
 
 //console.log(process.env);
 
@@ -105,6 +110,67 @@ app.post('/api/Major/update-Major', MajorServices.updateMajor);
 app.post('/api/Major/delete-Major', MajorServices.deleteMajor);
 
 //===>NganhHoc<=== END//
+
+//===>Co so<=== START//
+
+app.get('/api/co-so/get-list', CoSoService.getList);
+
+app.post('/api/co-so/add-co-so', CoSoService.addCoSo);
+
+app.post('/api/co-so/update-co-so', CoSoService.updateCoSo);
+
+app.post('/api/co-so/delete-co-so', CoSoService.deleteCoSo);
+
+//===>Co so<=== END//
+//jhnefueyfbsufbyufu
+
+//===>Toa Nha<=== START//
+
+app.get('/api/toa-nha/get-list', ToaNhaService.getList);
+
+app.post('/api/toa-nha/add-toa-nha', ToaNhaService.addToaNha);
+
+app.post('/api/toa-nha/update-toa-nha', ToaNhaService.updateToaNha);
+
+app.post('/api/toa-nha/delete-toa-nha', ToaNhaService.deleteToaNha);
+
+//===>Toa Nha<=== END//
+
+//===>Phong<=== START//
+
+app.get('/api/phong/get-list', PhongService.getList);
+
+app.post('/api/phong/add-phong', PhongService.addPhong);
+
+app.post('/api/phong/update-phong', PhongService.updatePhong);
+
+app.post('/api/phong/delete-phong', PhongService.deletePhong);
+
+//===>Phong<=== END//
+
+//===>Nhom Lop<=== START//
+
+app.get('/api/nhom-lop/get-list', NhomLopService.getList);
+
+app.post('/api/nhom-lop/add-nhom-lop', NhomLopService.addNhomLop);
+
+app.post('/api/nhom-lop/update-nhom-lop', NhomLopService.updateNhomLop);
+
+app.post('/api/nhom-lop/delete-nhom-lop', NhomLopService.deleteNhomLop);
+
+//===>Nhom Lop<=== END//
+
+//===>Lich Thi<=== START//
+
+app.get('/api/nhom-lop/get-list', LichThiService.getList);
+
+app.post('/api/nhom-lop/add-nhom-lop', LichThiService.addLichThi);
+
+app.post('/api/nhom-lop/update-nhom-lop', LichThiService.updateLichThi);
+
+app.post('/api/nhom-lop/delete-nhom-lop', LichThiService.deleteLichThi);
+
+//===>Lich Thi<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
