@@ -13,6 +13,7 @@ const ToaNhaService = require('./services/ToaNhaService');
 const PhongService = require('./services/PhongService');
 const NhomLopService = require('./services/NhomLopService');
 const LichThiService = require('./services/LichThiService');
+const KhoaService = require('./services/KhoaService');
 
 //console.log(process.env);
 
@@ -171,6 +172,18 @@ app.post('/api/nhom-lop/update-nhom-lop', LichThiService.updateLichThi);
 app.post('/api/nhom-lop/delete-nhom-lop', LichThiService.deleteLichThi);
 
 //===>Lich Thi<=== END//
+
+//===>Khoa<=== START//
+
+app.get('/api/Khoa/get-list', KhoaService.getList);
+
+app.post('/api/Khoa/add-Khoa', KhoaService.addKhoa);
+
+app.post('/api/Khoa/update-Khoa', KhoaService.updateKhoa);
+
+app.post('/api/Khoa/delete-Khoa', KhoaService.deleteKhoa);
+
+//===>Khoa<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
