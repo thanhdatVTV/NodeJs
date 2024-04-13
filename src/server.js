@@ -98,11 +98,11 @@ app.post('/api/Year/delete-Year', YearServices.deleteYear);
 
 app.get('/api/Major/get-list', MajorServices.getList);
 
-app.post('/api/Major/add-subjects', MajorServices.addMajor);
+app.post('/api/Major/add-Major', MajorServices.addMajor);
 
-app.post('/api/Major/update-subject', MajorServices.updateMajor);
+app.post('/api/Major/update-Major', MajorServices.updateMajor);
 
-app.post('/api/Major/delete-subject', MajorServices.deleteMajor);
+app.post('/api/Major/delete-Major', MajorServices.deleteMajor);
 
 //===>NganhHoc<=== END//
 
