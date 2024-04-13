@@ -7,6 +7,7 @@ const LecturerServices = require('./services/LecturerService');
 const SubjectServices = require('./services/SubjectService');
 const SemesterServices = require('./services/SemesterService');
 const YearServices = require('./services/YearService');
+const MajorServices = require('./services/MajorService');
 
 //console.log(process.env);
 
@@ -92,6 +93,18 @@ app.post('/api/Year/update-Year', YearServices.updateYear);
 app.post('/api/Year/delete-Year', YearServices.deleteYear);
 
 //===>Nam<=== END//
+
+//===>NganhHoc<=== START//
+
+app.get('/api/Major/get-list', MajorServices.getList);
+
+app.post('/api/Major/add-subjects', MajorServices.addMajor);
+
+app.post('/api/Major/update-subject', MajorServices.updateMajor);
+
+app.post('/api/Major/delete-subject', MajorServices.deleteMajor);
+
+//===>NganhHoc<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
