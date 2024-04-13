@@ -1,5 +1,3 @@
-// GiangVienServices.js
-
 const { db } = require('../firebase.js');
 
 async function getList(req, res) {
@@ -12,21 +10,21 @@ async function getList(req, res) {
         const parsedPageNumber = parseInt(pageNumber);
         const parsedPerPage = parseInt(perPage);
 
-        let lecturersRef = db.collection('tbl_GiangVien');
+        let coSosRef = db.collection('tbl_CoSo');
 
         // Apply keyword filter if provided
         if (keyword) {
-            lecturersRef = lecturersRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
+            coSosRef = coSosRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
         }
 
         // Add filter condition to exclude documents where isDelete is true
-        lecturersRef = lecturersRef.where('IsDelete', '!=', true);
+        coSosRef = coSosRef.where('IsDelete', '!=', true);
 
         // Calculate the starting index based on parsedPageNumber and parsedPerPage
         const startIndex = (parsedPageNumber - 1) * parsedPerPage;
 
         // Fetch a page of documents
-        const snapshot = await lecturersRef.limit(parsedPerPage).offset(startIndex).get();
+        const snapshot = await coSosRef.limit(parsedPerPage).offset(startIndex).get();
 
         if (snapshot.empty) {
             const resultViewModel = {
@@ -38,9 +36,9 @@ async function getList(req, res) {
             return res.status(404).send(resultViewModel);
         }
 
-        const lecturers = [];
+        const coSos = [];
         snapshot.forEach((doc) => {
-            lecturers.push({
+            coSos.push({
                 id: doc.id,
                 data: doc.data(),
             });
@@ -49,8 +47,8 @@ async function getList(req, res) {
         const resultViewModel = {
             status: 1,
             message: 'success',
-            response: lecturers,
-            totalRecord: lecturers.length // You might need to adjust this depending on your actual total record count
+            response: coSos,
+            totalRecord: coSos.length // You might need to adjust this depending on your actual total record count
         };
 
         res.status(200).send(resultViewModel);
@@ -66,48 +64,47 @@ async function getList(req, res) {
     }
 }
 
-async function addLecturer(req, res) {
+async function addCoSo(req, res) {
     try {
-        const {MaGV, TenGV} =
-            req.body;
+        const {MaCS, TenCS} = req.body;
 
         // Check if MaGV already exists
-        const existingLecturer = await db.collection('tbl_GiangVien').where('MaGV', '==', MaGV).get();
+        const existingLecturer = await db.collection('tbl_CoSo').where('MaCS', '==', MaCS).get();
         if (!existingLecturer.empty) {
             const resultViewModel = {
                 status: 0,
-                message: 'MaGV already exists',
+                message: 'MaCS already exists',
                 response: null,
                 totalRecord: 0
             };
             return res.status(200).send(resultViewModel);
         }
 
-        const lecturerData = {
+        const coSoData = {
             Status: 1,
             UserUpdated: "",
-            TenGV,
+            TenCS,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateUpdated: new Date(),
-            MaGV,
+            MaCS,
             UserCreated: "",
             IsDelete: false,
             // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateCreated: new Date()
         };
 
-        const docRef = await db.collection('tbl_GiangVien').add(lecturerData);
+        const docRef = await db.collection('tbl_CoSo').add(coSoData);
 
         const resultViewModel = {
             status: 1,
-            message: 'Thêm mới thành công',
-            response: `Lecturer added with ID: ${docRef.id}`,
+            message: 'added successfully',
+            response: `added with ID: ${docRef.id}`,
             totalRecord: 1
         };
 
         res.status(201).send(resultViewModel);
     } catch (error) {
-        console.error('Error adding lecturer: ', error);
+        console.error('Error adding: ', error);
         const resultViewModel = {
             status: -1,
             message: 'Internal Server Error',
@@ -118,19 +115,14 @@ async function addLecturer(req, res) {
     }
 }
 
-async function updateLecturer(req, res) {
+async function updateCoSo(req, res) {
     try {
-        const { Id, TenGV, MaGV } = req.body;
+        const { Id, MaCS, TenCS } = req.body;
 
-        // Validate required parameters if needed
-        // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
-        //     return res.status(400).send("Missing required parameters");
-        // }
-
-        const lecturerRef = db.collection('tbl_GiangVien').doc(Id);
+        const coSosRef = db.collection('tbl_CoSo').doc(Id);
 
         // Check if the document exists
-        const doc = await lecturerRef.get();
+        const doc = await coSosRef.get();
         if (!doc.exists) {
             const resultViewModel = {
                 status: 0,
@@ -142,24 +134,24 @@ async function updateLecturer(req, res) {
         }
 
         // Update the document with the provided data
-        await lecturerRef.update({
+        await coSosRef.update({
             UserUpdated: '',
-            TenGV,
+            MaCS,
+            TenCS,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
-            MaGV,
         });
 
         const resultViewModel = {
             status: 1,
-            message: 'Lecturer information updated successfully',
+            message: 'updated successfully',
             response: null,
             totalRecord: 0
         };
 
         res.status(200).send(resultViewModel);
     } catch (error) {
-        console.error('Error updating lecturer information: ', error);
+        console.error('Error updating information: ', error);
         const resultViewModel = {
             status: -1,
             message: 'Internal Server Error',
@@ -170,14 +162,14 @@ async function updateLecturer(req, res) {
     }
 }
 
-async function deleteLecturer(req, res) {
+async function deleteCoSo(req, res) {
     try {
         const { Id } = req.body;
 
-        const lecturerRef = db.collection('tbl_GiangVien').doc(Id);
+        const coSosRef = db.collection('tbl_CoSo').doc(Id);
 
         // Check if the document exists
-        const doc = await lecturerRef.get();
+        const doc = await coSosRef.get();
         if (!doc.exists) {
             const resultViewModel = {
                 status: 0,
@@ -189,20 +181,20 @@ async function deleteLecturer(req, res) {
         }
 
         // Update the document with the provided data
-        await lecturerRef.update({
+        await coSosRef.update({
             IsDelete: true,
         });
 
         const resultViewModel = {
             status: 1,
-            message: 'Lecturer information delete successfully',
+            message: 'information delete successfully',
             response: null,
             totalRecord: 0
         };
 
         res.status(200).send(resultViewModel);
     } catch (error) {
-        console.error('Error delete lecturer information: ', error);
+        console.error('Error delete information: ', error);
         const resultViewModel = {
             status: -1,
             message: 'Internal Server Error',
@@ -215,7 +207,7 @@ async function deleteLecturer(req, res) {
 
 module.exports = {
     getList,
-    addLecturer,
-    updateLecturer,
-    deleteLecturer
+    addCoSo,
+    updateCoSo,
+    deleteCoSo
 };
