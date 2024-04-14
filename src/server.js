@@ -55,7 +55,7 @@ app.use(express.json());
 //     origin: "*",
 // }));
 
-app.get('/api/User/Login', LoginService.login);
+app.post('/api/User/Login', LoginService.login);
 
 //===>Giang vien<=== BEGIN//
 app.get('/api/lecturers/get-list', LecturerServices.getList);
