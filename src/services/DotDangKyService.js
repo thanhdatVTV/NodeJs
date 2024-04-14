@@ -66,7 +66,7 @@ async function getList(req, res) {
 
 async function addDotDangKy(req, res) {
     try {
-        const {MaDDK, Mota, NamHoc, HocKy, MaMH} = req.body;
+        const {MaDDK, Mota, NamHoc, HocKy, MaMH, TuanHoc, TietHoc} = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_DotDangKy').where('MaDDK', '==', MaDDK).get();
@@ -87,6 +87,8 @@ async function addDotDangKy(req, res) {
             NamHoc,
             HocKy,
             MaMH,
+            TuanHoc, 
+            TietHoc,
             UserUpdated: "",
             DateUpdated: new Date(),
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
@@ -120,7 +122,7 @@ async function addDotDangKy(req, res) {
 
 async function updateDotDangKy(req, res) {
     try {
-        const { Id, MaDDK, Mota, NamHoc, HocKy, MaMH } = req.body;
+        const { Id, MaDDK, Mota, NamHoc, HocKy, MaMH, TuanHoc, TietHoc } = req.body;
 
         const dotDangKysRef = db.collection('tbl_DotDangKy').doc(Id);
 
@@ -144,6 +146,8 @@ async function updateDotDangKy(req, res) {
             NamHoc,
             HocKy,
             MaMH,
+            TuanHoc,
+            TietHoc,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
         });
