@@ -15,6 +15,7 @@ const NhomLopService = require('./services/NhomLopService');
 const LichThiService = require('./services/LichThiService');
 const KhoaService = require('./services/KhoaService');
 const DotDangKyService = require('./services/DotDangKyService');
+const LoginService = require('./services/LoginService');
 
 //console.log(process.env);
 
@@ -53,6 +54,8 @@ app.use(express.json());
 // app.use(cors({
 //     origin: "*",
 // }));
+
+app.get('/api/User/Login', LoginService.login);
 
 //===>Giang vien<=== BEGIN//
 app.get('/api/lecturers/get-list', LecturerServices.getList);
