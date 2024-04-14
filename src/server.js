@@ -14,6 +14,7 @@ const PhongService = require('./services/PhongService');
 const NhomLopService = require('./services/NhomLopService');
 const LichThiService = require('./services/LichThiService');
 const KhoaService = require('./services/KhoaService');
+const DotDangKyService = require('./services/DotDangKyService');
 
 //console.log(process.env);
 
@@ -182,6 +183,18 @@ app.post('/api/Khoa/add-Khoa', KhoaService.addKhoa);
 app.post('/api/Khoa/update-Khoa', KhoaService.updateKhoa);
 
 app.post('/api/Khoa/delete-Khoa', KhoaService.deleteKhoa);
+
+//===>Khoa<=== END//
+
+//===>Khoa<=== START//
+
+app.get('/api/dot-dang-ky/get-list', DotDangKyService.getList);
+
+app.post('/api/dot-dang-ky/add-dot-dang-ky', DotDangKyService.addDotDangKy);
+
+app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
+
+app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
 
 //===>Khoa<=== END//
 
