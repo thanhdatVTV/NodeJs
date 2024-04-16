@@ -13,6 +13,9 @@ const ToaNhaService = require('./services/ToaNhaService');
 const PhongService = require('./services/PhongService');
 const NhomLopService = require('./services/NhomLopService');
 const LichThiService = require('./services/LichThiService');
+const KhoaService = require('./services/KhoaService');
+const DotDangKyService = require('./services/DotDangKyService');
+const LoginService = require('./services/LoginService');
 
 //console.log(process.env);
 
@@ -51,6 +54,8 @@ app.use(express.json());
 // app.use(cors({
 //     origin: "*",
 // }));
+
+app.post('/api/User/Login', LoginService.login);
 
 //===>Giang vien<=== BEGIN//
 app.get('/api/lecturers/get-list', LecturerServices.getList);
@@ -171,6 +176,30 @@ app.post('/api/nhom-lop/update-nhom-lop', LichThiService.updateLichThi);
 app.post('/api/nhom-lop/delete-nhom-lop', LichThiService.deleteLichThi);
 
 //===>Lich Thi<=== END//
+
+//===>Khoa<=== START//
+
+app.get('/api/Khoa/get-list', KhoaService.getList);
+
+app.post('/api/Khoa/add-Khoa', KhoaService.addKhoa);
+
+app.post('/api/Khoa/update-Khoa', KhoaService.updateKhoa);
+
+app.post('/api/Khoa/delete-Khoa', KhoaService.deleteKhoa);
+
+//===>Khoa<=== END//
+
+//===>Khoa<=== START//
+
+app.get('/api/dot-dang-ky/get-list', DotDangKyService.getList);
+
+app.post('/api/dot-dang-ky/add-dot-dang-ky', DotDangKyService.addDotDangKy);
+
+app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
+
+app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
+
+//===>Khoa<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
