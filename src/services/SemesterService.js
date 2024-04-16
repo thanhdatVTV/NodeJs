@@ -68,9 +68,19 @@ async function getList(req, res) {
 
 async function addSemester(req, res) {
     try {
-        const { HocKy, UserUpdated, DateUpdated, UserCreated, IsDelete, DateCreated } =
+        const { MaHocKy, HocKy } =
             req.body;
 
+        // Check if MaGV or TenGV is undefined
+        if (!MaHocKy || !HocKy) {
+            return res.status(400).send({
+                status: 0,
+                message: 'MaHocKy or HocKy is missing',
+                response: null,
+                totalRecord: 0
+            });
+        }
+        
         // Check if MaGV already exists
         const existingSemester = await db.collection('tbl_HocKy').where('HocKy', '==', HocKy).get();
         if (!existingSemester.empty) {
@@ -84,12 +94,16 @@ async function addSemester(req, res) {
         }
 
         const SemesterData = {
+            Status: 1,
+            UserUpdated: "",
             HocKy,
-            UserUpdated,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
-            UserCreated,
-            IsDelete,
-            DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateUpdated: new Date(),
+            MaHocKy,
+            UserCreated: "",
+            IsDelete: false,
+            // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateCreated: new Date()
         };
 
         const docRef = await db.collection('tbl_HocKy').add(SemesterData);
@@ -116,7 +130,7 @@ async function addSemester(req, res) {
 
 async function updateSemester(req, res) {
     try {
-        const { Id, HocKy, UserUpdated, DateUpdated} = req.body;
+        const { Id, MaHocKy, HocKy} = req.body;
 
         // Validate required parameters if needed
         // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -139,9 +153,11 @@ async function updateSemester(req, res) {
 
         // Update the document with the provided data
         await SemesterRef.update({
-            UserUpdated,
+            UserUpdated: '',
             HocKy,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6)
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+            DateUpdated: new Date(),
+            MaHocKy,
         });
 
         const resultViewModel = {

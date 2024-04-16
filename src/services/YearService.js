@@ -68,8 +68,18 @@ async function getList(req, res) {
 
 async function addYear(req, res) {
     try {
-        const { NamHoc, UserUpdated, DateUpdated, UserCreated, IsDelete, DateCreated } =
+        const { MaNamHoc, NamHoc } =
             req.body;
+
+        // Check if MaGV or TenGV is undefined
+        if (!MaNamHoc || !NamHoc) {
+            return res.status(400).send({
+                status: 0,
+                message: 'MaNamHoc or NamHoc is missing',
+                response: null,
+                totalRecord: 0
+            });
+        }
 
         // Check if MaGV already exists
         const existingYear = await db.collection('tbl_NamHoc').where('NamHoc', '==', NamHoc).get();
@@ -84,12 +94,16 @@ async function addYear(req, res) {
         }
 
         const YearData = {
+            Status: 1,
+            UserUpdated: "",
             NamHoc,
-            UserUpdated,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
-            UserCreated,
-            IsDelete,
-            DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateUpdated: new Date(),
+            MaNamHoc,
+            UserCreated: "",
+            IsDelete: false,
+            // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
+            DateCreated: new Date()
         };
 
         const docRef = await db.collection('tbl_NamHoc').add(YearData);
@@ -116,7 +130,7 @@ async function addYear(req, res) {
 
 async function updateYear(req, res) {
     try {
-        const { Id, UserUpdated, NamHoc, DateUpdated } = req.body;
+        const { Id, MaNamHoc, NamHoc } = req.body;
 
         // Validate required parameters if needed
         // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -139,9 +153,11 @@ async function updateYear(req, res) {
 
         // Update the document with the provided data
         await YearRef.update({
-            UserUpdated,
+            UserUpdated: '',
             NamHoc,
-            DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+            DateUpdated: new Date(),
+            MaNamHoc,
         });
 
         const resultViewModel = {
