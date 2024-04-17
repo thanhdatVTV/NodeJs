@@ -68,6 +68,17 @@ app.post('/api/lecturers/delete-lecturer', LecturerServices.deleteLecturer);
 
 //===>Giang vien<=== END//
 
+//===>Giang vien<=== BEGIN//
+app.get('/api/testschedules/get-list', LichThiService.getList);
+
+app.post('/api/testschedules/add-testschedules', LichThiService.addLichThi);
+
+app.post('/api/testschedules/update-testschedules', LichThiService.updateLichThi);
+
+app.post('/api/testschedules/delete-testschedules', LichThiService.deleteLichThi);
+
+//===>Giang vien<=== END//
+
 //===>Mon hoc<=== START//
 
 app.get('/api/subjects/get-list', SubjectServices.getList);
