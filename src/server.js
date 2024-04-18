@@ -5,6 +5,7 @@ const webRoutes = require('./routes/web');
 const { db } = require('./firebase.js');
 const LecturerServices = require('./services/LecturerService');
 const SubjectServices = require('./services/SubjectService');
+const SubjectGroupServices = require('./services/SubjectGroupService');
 const SemesterServices = require('./services/SemesterService');
 const YearServices = require('./services/YearService');
 const MajorServices = require('./services/MajorService');
@@ -91,6 +92,18 @@ app.post('/api/subjects/update-subject', SubjectServices.updateSubject);
 app.post('/api/subjects/delete-subject', SubjectServices.deleteSubject);
 
 //===>Mon hoc<=== END//
+
+//===>Nhom mon hoc<=== START//
+
+app.get('/api/subjectgroups/get-list', SubjectGroupServices.getList);
+
+app.post('/api/subjectgroups/add-subjectgroups', SubjectGroupServices.addSubjectGroup);
+
+app.post('/api/subjectgroups/update-subjectgroup', SubjectGroupServices.updateSubjectGroup);
+
+app.post('/api/subjectgroups/delete-subjectgroup', SubjectGroupServices.deleteSubjectGroup);
+
+//===>Nhom mon hoc<=== END//
 
 //===>Hoc Ky<=== START//
 
