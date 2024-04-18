@@ -67,7 +67,7 @@ async function getList(req, res) {
 
 async function addSubject(req, res) {
   try {
-    const { MaMonHoc, TenMonHoc } = req.body;
+    const { MaMonHoc, TenMonHoc, PrerequisiteCourseID, SoTC } = req.body;
 
     const existingSubject = await db
       .collection('tbl_MonHoc')
@@ -86,6 +86,8 @@ async function addSubject(req, res) {
     const subjectData = {
       MaMonHoc,
       TenMonHoc,
+      PrerequisiteCourseID,
+      SoTC,
       Status: 1,
       IsDelete: false,
       UserCreated: '',
@@ -118,7 +120,7 @@ async function addSubject(req, res) {
 
 async function updateSubject(req, res) {
   try {
-    const { Id, MaMonHoc, TenMonHoc } = req.body;
+    const { Id, MaMonHoc, TenMonHoc, PrerequisiteCourseID, SoTC } = req.body;
 
     // Validate required parameters
     // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -143,6 +145,8 @@ async function updateSubject(req, res) {
     await subjectRef.update({
       MaMonHoc,
       TenMonHoc,
+      PrerequisiteCourseID,
+      SoTC,
       UserUpdated: '',
       DateUpdated: new Date(),
     });
