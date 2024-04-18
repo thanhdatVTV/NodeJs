@@ -16,6 +16,7 @@ const LichThiService = require('./services/LichThiService');
 const KhoaService = require('./services/KhoaService');
 const DotDangKyService = require('./services/DotDangKyService');
 const LoginService = require('./services/LoginService');
+const EducationProgramService = require('./services/EducationProgramService');
 
 //console.log(process.env);
 
@@ -211,6 +212,18 @@ app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy
 app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
 
 //===>Khoa<=== END//
+
+//===>Chuong Trinh Dao Tao<=== START//
+
+app.get('/api/EducationProgram/get-list', EducationProgramService.getList);
+
+app.post('/api/EducationProgram/add-EducationProgram', EducationProgramService.addEduProgram);
+
+app.post('/api/EducationProgram/update-EducationProgram', EducationProgramService.updateEduProgram);
+
+app.post('/api/EducationProgram/delete-EducationProgram', EducationProgramService.deleteEduProgram);
+
+//===>Chuong Trinh Dao Tao<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
