@@ -67,16 +67,7 @@ async function getList(req, res) {
 
 async function addSubject(req, res) {
   try {
-    const {
-      MaMonHoc,
-      TenMonHoc,
-      Status,
-      IsDelete,
-      UserCreated,
-      DateCreated,
-      UserUpdated,
-      DateUpdated,
-    } = req.body;
+    const { MaMonHoc, TenMonHoc } = req.body;
 
     const existingSubject = await db
       .collection('tbl_MonHoc')
@@ -95,12 +86,12 @@ async function addSubject(req, res) {
     const subjectData = {
       MaMonHoc,
       TenMonHoc,
-      Status,
-      IsDelete,
-      UserCreated,
-      DateCreated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
-      UserUpdated,
-      DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+      Status: 1,
+      IsDelete: false,
+      UserCreated: '',
+      DateCreated: new Date(),
+      UserUpdated: '',
+      DateUpdated: new Date(),
     };
 
     const docRef = await db.collection('tbl_MonHoc').add(subjectData);
@@ -127,7 +118,7 @@ async function addSubject(req, res) {
 
 async function updateSubject(req, res) {
   try {
-    const { Id, MaMonHoc, TenMonHoc, UserUpdated, DateUpdated } = req.body;
+    const { Id, MaMonHoc, TenMonHoc } = req.body;
 
     // Validate required parameters
     // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -152,8 +143,8 @@ async function updateSubject(req, res) {
     await subjectRef.update({
       MaMonHoc,
       TenMonHoc,
-      UserUpdated,
-      DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
+      UserUpdated: '',
+      DateUpdated: new Date(),
     });
 
     const resultViewModel = {
