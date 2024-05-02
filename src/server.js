@@ -243,8 +243,8 @@ app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy
 app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
 app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
 app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
-//===>Khoa<=== END//
 //===>DotDangKy<=== END//
+
 //===>PhanCongMonHoc<=== START//
 app.get('/api/phan-cong-mon-hoc/get-list', PhanCongMonHocService.getList);
 app.post('/api/phan-cong-mon-hoc/add-phan-cong-mon-hoc', PhanCongMonHocService.addPhanCongMonHoc);

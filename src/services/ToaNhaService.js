@@ -66,17 +66,20 @@ async function getList(req, res) {
 
 async function addToaNha(req, res) {
     try {
-        const {MaTN, TenTN, CoSoId} = req.body;
+        const {MaTN, TenTN, CoSoId, TenCS} = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_ToaNha').where('MaTN', '==', MaTN).get();
+
         if (!existingLecturer.empty) {
+            console.log('in if')
             const resultViewModel = {
                 status: 0,
                 message: 'MaTN already exists',
                 response: null,
                 totalRecord: 0
             };
+            console.log(resultViewModel);
             return res.status(200).send(resultViewModel);
         }
 
@@ -88,6 +91,7 @@ async function addToaNha(req, res) {
             DateUpdated: new Date(),
             MaTN,
             CoSoId,
+            TenCS,
             UserCreated: "",
             IsDelete: false,
             // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
@@ -118,7 +122,7 @@ async function addToaNha(req, res) {
 
 async function updateToaNha(req, res) {
     try {
-        const { Id, MaTN, TenTN, CoSoId } = req.body;
+        const { Id, MaTN, TenTN, CoSoId, TenCS } = req.body;
 
         const toaNhasRef = db.collection('tbl_ToaNha').doc(Id);
 
@@ -140,6 +144,7 @@ async function updateToaNha(req, res) {
             MaTN,
             TenTN,
             CoSoId,
+            TenCS,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
         });
