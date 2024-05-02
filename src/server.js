@@ -18,6 +18,7 @@ const KhoaService = require('./services/KhoaService');
 const DotDangKyService = require('./services/DotDangKyService');
 const LoginService = require('./services/LoginService');
 const EducationProgramService = require('./services/EducationProgramService');
+const PhanCongMonHocService = require('./services/PhanCongMonHocService');
 
 //console.log(process.env);
 
@@ -214,18 +215,6 @@ app.post('/api/Khoa/delete-Khoa', KhoaService.deleteKhoa);
 
 //===>Khoa<=== END//
 
-//===>Khoa<=== START//
-
-app.get('/api/dot-dang-ky/get-list', DotDangKyService.getList);
-
-app.post('/api/dot-dang-ky/add-dot-dang-ky', DotDangKyService.addDotDangKy);
-
-app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
-
-app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
-
-//===>Khoa<=== END//
-
 //===>Chuong Trinh Dao Tao<=== START//
 
 app.get('/api/EducationProgram/get-list', EducationProgramService.getList);
@@ -237,6 +226,31 @@ app.post('/api/EducationProgram/update-EducationProgram', EducationProgramServic
 app.post('/api/EducationProgram/delete-EducationProgram', EducationProgramService.deleteEduProgram);
 
 //===>Chuong Trinh Dao Tao<=== END//
+
+//===>Nhom mon hoc<=== START//
+app.get('/api/subjectgroups/get-list', SubjectGroupServices.getList);
+app.post('/api/subjectgroups/add-subjectgroups', SubjectGroupServices.addSubjectGroup);
+app.post('/api/subjectgroups/update-subjectgroup', SubjectGroupServices.updateSubjectGroup);
+app.post('/api/subjectgroups/delete-subjectgroup', SubjectGroupServices.deleteSubjectGroup);
+//===>Nhom mon hoc<=== END//
+
+//===>DotDangKy<=== START//
+app.get('/api/dot-dang-ky/get-list', DotDangKyService.getList);
+app.get('/api/dot-dang-ky/get-list', DotDangKyService.getList);
+app.post('/api/dot-dang-ky/add-dot-dang-ky', DotDangKyService.addDotDangKy);
+app.post('/api/dot-dang-ky/add-dot-dang-ky', DotDangKyService.addDotDangKy);
+app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
+app.post('/api/dot-dang-ky/update-dot-dang-ky', DotDangKyService.updateDotDangKy);
+app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
+app.post('/api/dot-dang-ky/delete-dot-dang-ky', DotDangKyService.deleteDotDangKy);
+//===>Khoa<=== END//
+//===>DotDangKy<=== END//
+//===>PhanCongMonHoc<=== START//
+app.get('/api/phan-cong-mon-hoc/get-list', PhanCongMonHocService.getList);
+app.post('/api/phan-cong-mon-hoc/add-phan-cong-mon-hoc', PhanCongMonHocService.addPhanCongMonHoc);
+app.post('/api/phan-cong-mon-hoc/update-phan-cong-mon-hoc', PhanCongMonHocService.updatePhanCongMonHoc);
+app.post('/api/phan-cong-mon-hoc/delete-phan-cong-mon-hoc', PhanCongMonHocService.deletePhanCongMonHoc);
+//===>PhanCongMonHoc<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);

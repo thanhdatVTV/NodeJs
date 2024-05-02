@@ -10,21 +10,21 @@ async function getList(req, res) {
         const parsedPageNumber = parseInt(pageNumber);
         const parsedPerPage = parseInt(perPage);
 
-        let dotDangKysRef = db.collection('tbl_DotDangKy');
+        let phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc');
 
         // Apply keyword filter if provided
         if (keyword) {
-            dotDangKysRef = dotDangKysRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
+            phanCongMonHocsRef = phanCongMonHocsRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
         }
 
         // Add filter condition to exclude documents where isDelete is true
-        dotDangKysRef = dotDangKysRef.where('IsDelete', '!=', true);
+        phanCongMonHocsRef = phanCongMonHocsRef.where('IsDelete', '!=', true);
 
         // Calculate the starting index based on parsedPageNumber and parsedPerPage
         const startIndex = (parsedPageNumber - 1) * parsedPerPage;
 
         // Fetch a page of documents
-        const snapshot = await dotDangKysRef.limit(parsedPerPage).offset(startIndex).get();
+        const snapshot = await phanCongMonHocsRef.limit(parsedPerPage).offset(startIndex).get();
 
         if (snapshot.empty) {
             const resultViewModel = {
@@ -36,9 +36,9 @@ async function getList(req, res) {
             return res.status(404).send(resultViewModel);
         }
 
-        const dotDangKys = [];
+        const phanCongMonHocs = [];
         snapshot.forEach((doc) => {
-            dotDangKys.push({
+            phanCongMonHocs.push({
                 id: doc.id,
                 data: doc.data(),
             });
@@ -47,8 +47,8 @@ async function getList(req, res) {
         const resultViewModel = {
             status: 1,
             message: 'success',
-            response: dotDangKys,
-            totalRecord: dotDangKys.length // You might need to adjust this depending on your actual total record count
+            response: phanCongMonHocs,
+            totalRecord: phanCongMonHocs.length // You might need to adjust this depending on your actual total record count
         };
 
         res.status(200).send(resultViewModel);
@@ -64,12 +64,12 @@ async function getList(req, res) {
     }
 }
 
-async function addDotDangKy(req, res) {
+async function addPhanCongMonHoc(req, res) {
     try {
-        const {MaDDK, MoTa, NamHoc, HocKy, ThoiGianBatDau, ThoiGianKetThuc} = req.body;
+        const {MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHocBatDau, TuanHocKetThuc, Thu, TietHocBatDau, TietHocKetThuc, SiSo, TeacherCode} = req.body;
 
         // Check if MaGV already exists
-        const existingLecturer = await db.collection('tbl_DotDangKy').where('MaDDK', '==', MaDDK).get();
+        const existingLecturer = await db.collection('tbl_PhanCongMonHoc').where('MaDDK', '==', MaDDK).get();
         if (!existingLecturer.empty) {
             const resultViewModel = {
                 status: 0,
@@ -82,12 +82,22 @@ async function addDotDangKy(req, res) {
 
         const DotDangKyData = {
             Status: 1,
-            MaDDK,
-            MoTa,
+            MaDDK, 
+            NganhHoc,
+            MaMH, 
+            TenMH,
             NamHoc,
             HocKy,
-            ThoiGianBatDau, 
-            ThoiGianKetThuc,
+            CoSo,
+            ToaNha,
+            Phong,
+            TuanHocBatDau,
+            TuanHocKetThuc,
+            Thu,
+            TietHocBatDau,
+            TietHocKetThuc,
+            SiSo,
+            TeacherCode,
             UserUpdated: "",
             DateUpdated: new Date(),
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
@@ -97,7 +107,7 @@ async function addDotDangKy(req, res) {
             DateCreated: new Date()
         };
 
-        const docRef = await db.collection('tbl_DotDangKy').add(DotDangKyData);
+        const docRef = await db.collection('tbl_PhanCongMonHoc').add(DotDangKyData);
 
         const resultViewModel = {
             status: 1,
@@ -119,14 +129,14 @@ async function addDotDangKy(req, res) {
     }
 }
 
-async function updateDotDangKy(req, res) {
+async function updatePhanCongMonHoc(req, res) {
     try {
-        const { Id, MaDDK, MoTa, NamHoc, HocKy, ThoiGianBatDau, ThoiGianKetThuc } = req.body;
+        const { Id, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHocBatDau, TuanHocKetThuc, Thu, TietHocBatDau, TietHocKetThuc, SiSo, TeacherCode } = req.body;
 
-        const dotDangKysRef = db.collection('tbl_DotDangKy').doc(Id);
+        const phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc').doc(Id);
 
         // Check if the document exists
-        const doc = await dotDangKysRef.get();
+        const doc = await phanCongMonHocsRef.get();
         if (!doc.exists) {
             const resultViewModel = {
                 status: 0,
@@ -138,14 +148,24 @@ async function updateDotDangKy(req, res) {
         }
 
         // Update the document with the provided data
-        await dotDangKysRef.update({
+        await phanCongMonHocsRef.update({
             UserUpdated: '',
-            MaDDK,
-            MoTa,
+            MaDDK, 
+            NganhHoc,
+            MaMH, 
+            TenMH,
             NamHoc,
             HocKy,
-            ThoiGianBatDau,
-            ThoiGianKetThuc,
+            CoSo,
+            ToaNha,
+            Phong,
+            TuanHocBatDau,
+            TuanHocKetThuc,
+            Thu,
+            TietHocBatDau,
+            TietHocKetThuc,
+            SiSo,
+            TeacherCode,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
         });
@@ -170,14 +190,14 @@ async function updateDotDangKy(req, res) {
     }
 }
 
-async function deleteDotDangKy(req, res) {
+async function deletePhanCongMonHoc(req, res) {
     try {
         const { Id } = req.body;
 
-        const dotDangKysRef = db.collection('tbl_DotDangKy').doc(Id);
+        const phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc').doc(Id);
 
         // Check if the document exists
-        const doc = await dotDangKysRef.get();
+        const doc = await phanCongMonHocsRef.get();
         if (!doc.exists) {
             const resultViewModel = {
                 status: 0,
@@ -189,7 +209,7 @@ async function deleteDotDangKy(req, res) {
         }
 
         // Update the document with the provided data
-        await dotDangKysRef.update({
+        await phanCongMonHocsRef.update({
             IsDelete: true,
         });
 
@@ -215,7 +235,7 @@ async function deleteDotDangKy(req, res) {
 
 module.exports = {
     getList,
-    addDotDangKy,
-    updateDotDangKy,
-    deleteDotDangKy
+    addPhanCongMonHoc,
+    updatePhanCongMonHoc,
+    deletePhanCongMonHoc
 };
