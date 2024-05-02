@@ -66,7 +66,7 @@ async function getList(req, res) {
 
 async function addPhong(req, res) {
     try {
-        const {MaPhong, TenPhong} = req.body;
+        const {MaPhong, TenPhong, ToaNhaId} = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_Phong').where('MaPhong', '==', MaPhong).get();
@@ -87,6 +87,7 @@ async function addPhong(req, res) {
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateUpdated: new Date(),
             MaPhong,
+            ToaNhaId,
             UserCreated: "",
             IsDelete: false,
             // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
@@ -117,7 +118,7 @@ async function addPhong(req, res) {
 
 async function updatePhong(req, res) {
     try {
-        const { Id, MaPhong, TenPhong } = req.body;
+        const { Id, MaPhong, TenPhong, ToaNhaId } = req.body;
 
         const phongsRef = db.collection('tbl_Phong').doc(Id);
 
@@ -138,6 +139,7 @@ async function updatePhong(req, res) {
             UserUpdated: '',
             MaPhong,
             TenPhong,
+            ToaNhaId,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
         });

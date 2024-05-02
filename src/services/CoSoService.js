@@ -66,7 +66,7 @@ async function getList(req, res) {
 
 async function addCoSo(req, res) {
     try {
-        const {MaCS, TenCS} = req.body;
+        const {MaCS, TenCS, DiaChi} = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_CoSo').where('MaCS', '==', MaCS).get();
@@ -87,6 +87,7 @@ async function addCoSo(req, res) {
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateUpdated: new Date(),
             MaCS,
+            DiaChi,
             UserCreated: "",
             IsDelete: false,
             // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
@@ -117,7 +118,7 @@ async function addCoSo(req, res) {
 
 async function updateCoSo(req, res) {
     try {
-        const { Id, MaCS, TenCS } = req.body;
+        const { Id, MaCS, TenCS, DiaChi } = req.body;
 
         const coSosRef = db.collection('tbl_CoSo').doc(Id);
 
