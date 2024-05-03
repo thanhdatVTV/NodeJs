@@ -3,9 +3,8 @@ const { db } = require('../firebase.js');
 async function getList(req, res) {
     try {
         // Parse query parameters
-        const { keyword, pageNumber = 1, perPage = 10 } = req.query;
-
-
+        const { keyword, MaDDK, pageNumber = 1, perPage = 10 } = req.query;
+        console.log(keyword, MaDDK, pageNumber, perPage)
         // Ensure pageNumber and perPage are parsed as integers
         const parsedPageNumber = parseInt(pageNumber);
         const parsedPerPage = parseInt(perPage);
@@ -13,12 +12,18 @@ async function getList(req, res) {
         let phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc');
 
         // Apply keyword filter if provided
-        if (keyword) {
+        if (keyword != "") {
             phanCongMonHocsRef = phanCongMonHocsRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
+            console.log('vao 1')
         }
-
+        if (MaDDK) {
+            phanCongMonHocsRef = phanCongMonHocsRef.where('MaDDK', '==', MaDDK);
+            console.log('vao 2')
+        }
         // Add filter condition to exclude documents where isDelete is true
         phanCongMonHocsRef = phanCongMonHocsRef.where('IsDelete', '!=', true);
+
+
 
         // Calculate the starting index based on parsedPageNumber and parsedPerPage
         const startIndex = (parsedPageNumber - 1) * parsedPerPage;
@@ -66,7 +71,7 @@ async function getList(req, res) {
 
 async function addPhanCongMonHoc(req, res) {
     try {
-        const {MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHocBatDau, TuanHocKetThuc, Thu, TietHocBatDau, TietHocKetThuc, SiSo, TeacherCode} = req.body;
+        const { MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_PhanCongMonHoc').where('MaDDK', '==', MaDDK).get();
@@ -82,20 +87,18 @@ async function addPhanCongMonHoc(req, res) {
 
         const DotDangKyData = {
             Status: 1,
-            MaDDK, 
+            MaDDK,
             NganhHoc,
-            MaMH, 
+            MaMH,
             TenMH,
             NamHoc,
             HocKy,
             CoSo,
             ToaNha,
             Phong,
-            TuanHocBatDau,
-            TuanHocKetThuc,
+            TuanHoc,
             Thu,
-            TietHocBatDau,
-            TietHocKetThuc,
+            TietHoc,
             SiSo,
             TeacherCode,
             UserUpdated: "",
@@ -131,7 +134,7 @@ async function addPhanCongMonHoc(req, res) {
 
 async function updatePhanCongMonHoc(req, res) {
     try {
-        const { Id, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHocBatDau, TuanHocKetThuc, Thu, TietHocBatDau, TietHocKetThuc, SiSo, TeacherCode } = req.body;
+        const { Id, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
 
         const phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc').doc(Id);
 
@@ -150,20 +153,18 @@ async function updatePhanCongMonHoc(req, res) {
         // Update the document with the provided data
         await phanCongMonHocsRef.update({
             UserUpdated: '',
-            MaDDK, 
+            MaDDK,
             NganhHoc,
-            MaMH, 
+            MaMH,
             TenMH,
             NamHoc,
             HocKy,
             CoSo,
             ToaNha,
             Phong,
-            TuanHocBatDau,
-            TuanHocKetThuc,
+            TuanHoc,
             Thu,
-            TietHocBatDau,
-            TietHocKetThuc,
+            TietHoc,
             SiSo,
             TeacherCode,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
