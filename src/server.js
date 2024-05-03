@@ -60,6 +60,7 @@ app.use(express.json());
 
 app.post('/api/User/Login', LoginService.login);
 
+
 //===>Giang vien<=== BEGIN//
 app.get('/api/lecturers/get-list', LecturerServices.getList);
 
@@ -153,7 +154,6 @@ app.post('/api/co-so/update-co-so', CoSoService.updateCoSo);
 app.post('/api/co-so/delete-co-so', CoSoService.deleteCoSo);
 
 //===>Co so<=== END//
-//jhnefueyfbsufbyufu
 
 //===>Toa Nha<=== START//
 
@@ -218,12 +218,14 @@ app.post('/api/Khoa/delete-Khoa', KhoaService.deleteKhoa);
 //===>Chuong Trinh Dao Tao<=== START//
 
 app.get('/api/EducationProgram/get-list', EducationProgramService.getList);
+app.get('/api/EducationProgram/get-list-by-major', EducationProgramService.getListByMajor);
 
 app.post('/api/EducationProgram/add-EducationProgram', EducationProgramService.addEduProgram);
 
 app.post('/api/EducationProgram/update-EducationProgram', EducationProgramService.updateEduProgram);
 
 app.post('/api/EducationProgram/delete-EducationProgram', EducationProgramService.deleteEduProgram);
+
 
 //===>Chuong Trinh Dao Tao<=== END//
 

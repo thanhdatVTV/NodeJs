@@ -68,7 +68,7 @@ async function getList(req, res) {
 
 async function addEduProgram(req, res) {
     try {
-        const { NganhId, TenNganh, MaMonHoc, TenMonHoc, GroupId, IsCompulsory} =
+        const { NganhId, TenNganh, MaMonHoc, TenMonHoc, SoTC, GroupId, IsCompulsory} =
             req.body;
 
         // Check if MaGV or TenGV is undefined
@@ -88,6 +88,7 @@ async function addEduProgram(req, res) {
             TenNganh, 
             MaMonHoc, 
             TenMonHoc, 
+            SoTC,
             GroupId, 
             IsCompulsory,
             UserUpdated: "",
@@ -123,7 +124,7 @@ async function addEduProgram(req, res) {
 
 async function updateEduProgram(req, res) {
     try {
-        const { Id, NganhId, TenNganh, MaMonHoc, TenMonHoc, GroupId, IsCompulsory } = req.body;
+        const { Id, NganhId, TenNganh, MaMonHoc, TenMonHoc, SoTC, GroupId, IsCompulsory } = req.body;
 
         // Validate required parameters if needed
         // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -150,7 +151,8 @@ async function updateEduProgram(req, res) {
             NganhId, 
             TenNganh, 
             MaMonHoc, 
-            TenMonHoc, 
+            TenMonHoc,
+            SoTC, 
             GroupId, 
             IsCompulsory,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
@@ -220,9 +222,64 @@ async function deleteEduProgram(req, res) {
     }
 }
 
+async function getListByMajor(req, res) {
+    try {
+        // Parse query parameters
+        const { TenNganh } = req.query;
+        console.log(TenNganh)
+
+        let EduProgramRef = db.collection('tbl_ChuongTrinhDaoTao');
+
+        // Apply filter by TenNganh
+        if (TenNganh) {
+            EduProgramRef = EduProgramRef.where('TenNganh', '==', TenNganh);
+            EduProgramRef = EduProgramRef.where('IsDelete', '!=', 'false');
+        }
+
+        const snapshot = await EduProgramRef.get();
+
+        if (snapshot.empty) {
+            const resultViewModel = {
+                status: -1,
+                message: 'No documents found',
+                response: null,
+                totalRecord: 0
+            };
+            return res.status(404).send(resultViewModel);
+        }
+
+        const EduProgram = [];
+        snapshot.forEach((doc) => {
+            EduProgram.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+
+        const resultViewModel = {
+            status: 1,
+            message: 'success',
+            response: EduProgram,
+            totalRecord: EduProgram.length
+        };
+
+        res.status(200).send(resultViewModel);
+    } catch (error) {
+        console.error('Error getting documents: ', error);
+        const resultViewModel = {
+            status: -1,
+            message: 'Internal Server Error',
+            response: null,
+            totalRecord: 0
+        };
+        res.status(500).send(resultViewModel);
+    }
+}
+
 module.exports = {
     getList,
     addEduProgram,
     updateEduProgram,
-    deleteEduProgram
+    deleteEduProgram,
+    getListByMajor
 };

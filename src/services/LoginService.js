@@ -33,7 +33,8 @@ async function login(req, res) {
             FirstName: userResponse.FirstName,
             DateOfBirth: userResponse.DateOfBirth,
             LastName: userResponse.LastName,
-            MajorId: userResponse.MajorId,
+            MajorName: userResponse.MajorName,
+            FacultyName: userResponse.FacultyName
           };
 
           const resultViewModel = {
@@ -63,7 +64,7 @@ async function login(req, res) {
               FullName: userResponse.FullName,
               IsDelete: false,
               LastName: userResponse.LastName,
-              MajorId: userResponse.MajorId,
+              MajorName: userResponse.MajorName,
               StudentId: userResponse.StudentId,
               UserId: userDocRef.id,
             });
@@ -77,6 +78,7 @@ async function login(req, res) {
               FullName: userResponse.FullName,
               IsDelete: false,
               LastName: userResponse.LastName,
+              FacultyName: userResponse.FacultyName,
               TeacherId: userResponse.TeacherId,
               UserId: userDocRef.id,
             });
