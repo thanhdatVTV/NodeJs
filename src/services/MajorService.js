@@ -68,14 +68,14 @@ async function getList(req, res) {
 
 async function addMajor(req, res) {
     try {
-        const {MaNganh, TenNganh} =
+        const {MaKhoa, TenKhoa, MaNganh, TenNganh} =
             req.body;
 
         // Check if MaGV or TenGV is undefined
-        if (!MaNganh || !TenNganh) {
+        if (!MaNganh || !TenNganh || !MaKhoa || !TenKhoa) {
             return res.status(400).send({
                 status: 0,
-                message: 'MaNganh or TenNganh is missing',
+                message: 'Nganh or Khoa is missing',
                 response: null,
                 totalRecord: 0
             });
@@ -96,6 +96,8 @@ async function addMajor(req, res) {
         const MajorData = {
             Status: 1,
             UserUpdated: "",
+            MaKhoa,
+            TenKhoa,
             TenNganh,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateUpdated: new Date(),
@@ -130,7 +132,7 @@ async function addMajor(req, res) {
 
 async function updateMajor(req, res) {
     try {
-        const { Id, TenNganh, MaNganh } = req.body;
+        const { Id, MaKhoa, TenKhoa, TenNganh, MaNganh } = req.body;
 
         // Validate required parameters if needed
         // if (!Id || !UserUpdated || !TenGV || !DateUpdated || !MaGV) {
@@ -154,6 +156,8 @@ async function updateMajor(req, res) {
         // Update the document with the provided data
         await MajorRef.update({
             UserUpdated: '',
+            MaKhoa,
+            TenKhoa,
             TenNganh,
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
