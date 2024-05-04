@@ -24,7 +24,6 @@ async function getList(req, res) {
         phanCongMonHocsRef = phanCongMonHocsRef.where('IsDelete', '!=', true);
 
 
-
         // Calculate the starting index based on parsedPageNumber and parsedPerPage
         const startIndex = (parsedPageNumber - 1) * parsedPerPage;
 
@@ -74,16 +73,16 @@ async function addPhanCongMonHoc(req, res) {
         const { MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
 
         // Check if MaGV already exists
-        const existingLecturer = await db.collection('tbl_PhanCongMonHoc').where('MaDDK', '==', MaDDK).get();
-        if (!existingLecturer.empty) {
-            const resultViewModel = {
-                status: 0,
-                message: 'MaDDK already exists',
-                response: null,
-                totalRecord: 0
-            };
-            return res.status(200).send(resultViewModel);
-        }
+        // const existingLecturer = await db.collection('tbl_PhanCongMonHoc').where('MaDDK', '==', MaDDK).get();
+        // if (!existingLecturer.empty) {
+        //     const resultViewModel = {
+        //         status: 0,
+        //         message: 'MaDDK already exists',
+        //         response: null,
+        //         totalRecord: 0
+        //     };
+        //     return res.status(200).send(resultViewModel);
+        // }
 
         const DotDangKyData = {
             Status: 1,
