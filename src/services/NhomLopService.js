@@ -66,7 +66,7 @@ async function getList(req, res) {
 
 async function addNhomLop(req, res) {
     try {
-        const {MaHK, MaNhom, TenNhom, MaMH} = req.body;
+        const { MaHK, MaNhom, TenNhom, MaMH } = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_NhomLop').where('MaNhom', '==', MaNhom).get();
@@ -84,14 +84,10 @@ async function addNhomLop(req, res) {
             Status: 1,
             TenNhom,
             MaNhom,
-            MaHK,
-            MaMH,
             DateUpdated: new Date(),
-            // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             UserUpdated: "",
             UserCreated: "",
             IsDelete: false,
-            // DateCreated: new Date(DateCreated._seconds * 1000 + DateCreated._nanoseconds / 1e6), // Convert Firestore timestamp to JavaScript Date
             DateCreated: new Date()
         };
 
@@ -139,8 +135,6 @@ async function updateNhomLop(req, res) {
         await nhomLopsRef.update({
             MaNhom,
             TenNhom,
-            MaHK,
-            MaMH,
             UserUpdated: '',
             // DateUpdated: new Date(DateUpdated._seconds * 1000 + DateUpdated._nanoseconds / 1e6),
             DateUpdated: new Date(),
