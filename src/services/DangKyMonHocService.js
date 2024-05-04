@@ -69,6 +69,59 @@ async function getList(req, res) {
     }
 }
 
+async function getListByMaSV(req, res) {
+    try {
+        // Parse query parameters
+        const { MaSV } = req.query;
+
+        let dangKyMonHocsRef = db.collection('tbl_DangKyMonHoc');
+
+        // Apply filter by TenNganh
+        if (MaSV) {
+            dangKyMonHocsRef = dangKyMonHocsRef.where('MaSV', '==', MaSV);
+            dangKyMonHocsRef = dangKyMonHocsRef.where('IsDelete', '!=', false);
+        }
+
+        const snapshot = await dangKyMonHocsRef.get();
+
+        if (snapshot.empty) {
+            const resultViewModel = {
+                status: -1,
+                message: 'No documents found',
+                response: null,
+                totalRecord: 0
+            };
+            return res.status(404).send(resultViewModel);
+        }
+
+        const dangKyMonHocs = [];
+        snapshot.forEach((doc) => {
+            dangKyMonHocs.push({
+                id: doc.id,
+                data: doc.data(),
+            });
+        });
+
+        const resultViewModel = {
+            status: 1,
+            message: 'success',
+            response: dangKyMonHocs,
+            totalRecord: dangKyMonHocs.length
+        };
+
+        res.status(200).send(resultViewModel);
+    } catch (error) {
+        console.error('Error getting documents: ', error);
+        const resultViewModel = {
+            status: -1,
+            message: 'Internal Server Error',
+            response: null,
+            totalRecord: 0
+        };
+        res.status(500).send(resultViewModel);
+    }
+}
+
 async function addDangKyMonHoc(req, res) {
     try {
         const { MaSV, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, NhomLop, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
@@ -242,6 +295,7 @@ async function deleteDangKyMonHoc(req, res) {
 
 module.exports = {
     getList,
+    getListByMaSV,
     addDangKyMonHoc,
     updateDangKyMonHoc,
     deleteDangKyMonHoc

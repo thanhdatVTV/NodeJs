@@ -257,6 +257,7 @@ app.post('/api/phan-cong-mon-hoc/delete-phan-cong-mon-hoc', PhanCongMonHocServic
 
 //===>DangKyMonHoc<=== START//
 app.get('/api/dang-ky-mon-hoc/get-list', DangKyMonHocService.getList);
+app.get('/api/dang-ky-mon-hoc/get-list-by-ma-sv', DangKyMonHocService.getListByMaSV);
 app.post('/api/dang-ky-mon-hoc/add-dang-ky-mon-hoc', DangKyMonHocService.addDangKyMonHoc);
 app.post('/api/dang-ky-mon-hoc/update-dang-ky-mon-hoc', DangKyMonHocService.updateDangKyMonHoc);
 app.post('/api/dang-ky-mon-hoc/delete-dang-ky-mon-hoc', DangKyMonHocService.deleteDangKyMonHoc);
