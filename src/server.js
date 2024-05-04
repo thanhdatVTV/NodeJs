@@ -19,6 +19,7 @@ const DotDangKyService = require('./services/DotDangKyService');
 const LoginService = require('./services/LoginService');
 const EducationProgramService = require('./services/EducationProgramService');
 const PhanCongMonHocService = require('./services/PhanCongMonHocService');
+const DangKyMonHocService = require('./services/DangKyMonHocService');
 
 //console.log(process.env);
 
@@ -253,6 +254,13 @@ app.post('/api/phan-cong-mon-hoc/add-phan-cong-mon-hoc', PhanCongMonHocService.a
 app.post('/api/phan-cong-mon-hoc/update-phan-cong-mon-hoc', PhanCongMonHocService.updatePhanCongMonHoc);
 app.post('/api/phan-cong-mon-hoc/delete-phan-cong-mon-hoc', PhanCongMonHocService.deletePhanCongMonHoc);
 //===>PhanCongMonHoc<=== END//
+
+//===>DangKyMonHoc<=== START//
+app.get('/api/dang-ky-mon-hoc/get-list', DangKyMonHocService.getList);
+app.post('/api/dang-ky-mon-hoc/add-dang-ky-mon-hoc', DangKyMonHocService.addDangKyMonHoc);
+app.post('/api/dang-ky-mon-hoc/update-dang-ky-mon-hoc', DangKyMonHocService.updateDangKyMonHoc);
+app.post('/api/dang-ky-mon-hoc/delete-dang-ky-mon-hoc', DangKyMonHocService.deleteDangKyMonHoc);
+//===>DangKyMonHoc<=== END//
 
 app.listen(port, hostname, () => {
   console.log(`Example app listening on port ${port}`);
