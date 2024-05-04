@@ -3,8 +3,8 @@ const { db } = require('../firebase.js');
 async function getList(req, res) {
     try {
         // Parse query parameters
-        const { keyword, pageNumber = 1, perPage = 10 } = req.query;
-
+        const { keyword, MaDDK, pageNumber = 1, perPage = 10 } = req.query;
+        console.log('co vao day nhe', MaDDK);
 
         // Ensure pageNumber and perPage are parsed as integers
         const parsedPageNumber = parseInt(pageNumber);
@@ -15,6 +15,11 @@ async function getList(req, res) {
         // Apply keyword filter if provided
         if (keyword) {
             dotDangKysRef = dotDangKysRef.where('fieldName', '==', keyword); // Replace "fieldName" with the actual field name
+        }
+        if (MaDDK) {
+            let lstDDK = await db.collection('tbl_DotDangKy').doc(MaDDK).get();
+            let MaDDKValue = lstDDK.data().MaDDK; // Lấy giá trị của trường MaDDK
+            dotDangKysRef = dotDangKysRef.where('MaDDK', '==', MaDDKValue);
         }
 
         // Add filter condition to exclude documents where isDelete is true
@@ -66,7 +71,7 @@ async function getList(req, res) {
 
 async function addDotDangKy(req, res) {
     try {
-        const {MaDDK, MoTa, NamHoc, HocKy, ThoiGianBatDau, ThoiGianKetThuc} = req.body;
+        const { MaDDK, MoTa, NamHoc, HocKy, ThoiGianBatDau, ThoiGianKetThuc } = req.body;
 
         // Check if MaGV already exists
         const existingLecturer = await db.collection('tbl_DotDangKy').where('MaDDK', '==', MaDDK).get();
@@ -86,7 +91,7 @@ async function addDotDangKy(req, res) {
             MoTa,
             NamHoc,
             HocKy,
-            ThoiGianBatDau, 
+            ThoiGianBatDau,
             ThoiGianKetThuc,
             UserUpdated: "",
             DateUpdated: new Date(),

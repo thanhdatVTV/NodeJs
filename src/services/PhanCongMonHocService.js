@@ -18,7 +18,6 @@ async function getList(req, res) {
         }
         if (MaDDK) {
             phanCongMonHocsRef = phanCongMonHocsRef.where('MaDDK', '==', MaDDK);
-            console.log('vao 2')
         }
         // Add filter condition to exclude documents where isDelete is true
         phanCongMonHocsRef = phanCongMonHocsRef.where('IsDelete', '!=', true);
