@@ -70,7 +70,7 @@ async function getList(req, res) {
 
 async function addPhanCongMonHoc(req, res) {
     try {
-        const { MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
+        const { MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, NhomLop, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
 
         // Check if MaGV already exists
         // const existingLecturer = await db.collection('tbl_PhanCongMonHoc').where('MaDDK', '==', MaDDK).get();
@@ -92,6 +92,7 @@ async function addPhanCongMonHoc(req, res) {
             TenMH,
             NamHoc,
             HocKy,
+            NhomLop,
             CoSo,
             ToaNha,
             Phong,
@@ -133,7 +134,7 @@ async function addPhanCongMonHoc(req, res) {
 
 async function updatePhanCongMonHoc(req, res) {
     try {
-        const { Id, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
+        const { Id, MaDDK, NganhHoc, MaMH, TenMH, NamHoc, HocKy, NhomLop, CoSo, ToaNha, Phong, TuanHoc, Thu, TietHoc, SiSo, TeacherCode } = req.body;
 
         const phanCongMonHocsRef = db.collection('tbl_PhanCongMonHoc').doc(Id);
 
@@ -158,6 +159,7 @@ async function updatePhanCongMonHoc(req, res) {
             TenMH,
             NamHoc,
             HocKy,
+            NhomLop,
             CoSo,
             ToaNha,
             Phong,
