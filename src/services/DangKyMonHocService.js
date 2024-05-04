@@ -83,7 +83,7 @@ async function addDangKyMonHoc(req, res) {
         if (!existingMH.empty) {
             const resultViewModel = {
                 status: 0,
-                message: 'MonHoc already exists',
+                message: 'Môn học này đã được đăng ký rồi',
                 response: null,
                 totalRecord: 0
             };
