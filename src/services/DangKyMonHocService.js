@@ -79,7 +79,7 @@ async function getListByMaSV(req, res) {
         // Apply filter by TenNganh
         if (MaSV) {
             dangKyMonHocsRef = dangKyMonHocsRef.where('MaSV', '==', MaSV);
-            dangKyMonHocsRef = dangKyMonHocsRef.where('IsDelete', '!=', false);
+            dangKyMonHocsRef = dangKyMonHocsRef.where('IsDelete', '!=', true);
         }
 
         const snapshot = await dangKyMonHocsRef.get();
